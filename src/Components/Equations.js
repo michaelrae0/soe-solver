@@ -63,7 +63,7 @@ export default class Solver extends React.Component {
         <View style={styles.system}>
           {/* Bracket */}
           <View style={styles.bracketContainer} >
-            <Image source={require('../../assets/bracketSlimm.png')}  style={styles.bracket}/>
+            <Image source={require('../../assets/bracketSlim.png')}  style={styles.bracket}/>
           </View>
 
           {/* Equations */}
