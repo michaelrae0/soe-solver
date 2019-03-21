@@ -10,7 +10,7 @@ React Native app for solving 2-equation systems. Uses redux for storing the stat
 
 # Installation
 
-1) git clone https://github.com/michaelrae0/system-of-equations-solver
+1) git clone https://github.com/michaelrae0/soe-solver
 2) cd SoE
 3) npm install
 4) expo start
