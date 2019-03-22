@@ -7,31 +7,35 @@ export default class Results extends React.Component {
     let x = '?';
     let y = '?';
 
+    // Verify there is a state to work with.
     if (this.props.log[0]) {
       log = this.props.log
       x = log[log.length-1].x;
       y = log[log.length-1].y;
     }
 
-    return (
-      <View style={styles.results}> 
-        <View style={styles.container}>
-          <Text style={styles.text}>x = {x}</Text>
-          <Text style={styles.text}>y = {y}</Text>
+    // Check whether to show or hide answers.
+    if (this.props.showAnswers) {
+      return (
+        <View style={styles.results}> 
+          <View style={styles.container}>
+            <Text style={styles.text}>x = {x}</Text>
+            <Text style={styles.text}>y = {y}</Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
+    else return null;
   }
 }
 
 const styles = StyleSheet.create({
   results: {
     flex: 0.35,
-    // backgroundColor: 'lightblue',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: -40,
   },
+
   container: {
     alignItems: 'center',
   },

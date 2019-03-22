@@ -5,7 +5,8 @@ import { addSystem } from '../actions/index'
 export default class Solver extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { // Coefficients. 
+
+    this.state = { // Coefficients. Saved as strings to be used in the TextInputs.
       a1: '2',
       b1: '1',
       t1: '10',
@@ -15,8 +16,10 @@ export default class Solver extends React.Component {
     }
   }
 
-  // Solves x and y.
   solveEquations = () => {
+    // Solve for x and y.
+
+    // Convert coefficients from strings to numbers
     let a1 = +this.state.a1;
     let a2 = +this.state.a2;
     let b1 = +this.state.b1;
@@ -24,20 +27,22 @@ export default class Solver extends React.Component {
     let t1 = +this.state.t1;
     let t2 = +this.state.t2;
 
+    // Solve for y, then x.
     let x = 0;
     let y = 0;
 
     y = (t2 - a2/a1*t1) / (b2 - a2/a1*b1);
     x = (t1 - b1*y)/a1;
 
+    // Round to 4 decimals to save screen space.
     x = Math.round(x * 10000)/10000;
     y = Math.round(y * 10000)/10000;
 
     return { x, y }
   }
 
-  // Clear empties TextInputs. Solve finds x and y, then updates store.
   onPressClear = () => {
+    // Clear the coeffients.
     this.setState({
       a1: '',
       b1: '',
@@ -45,20 +50,30 @@ export default class Solver extends React.Component {
       a2: '',
       b2: '',
       t2: '',
-    })
+    });
+
+    // Stop showing answers in Results component
+    this.props.toggleAnswers(false);
   }
   onPressSolve = () => {    
+    // Solve for x and y.
     let results = this.solveEquations();
 
+    // Update redux state.
     let action = { ...this.state, x: results.x, y: results.y };
-    this.props.dispatch(addSystem(action))
+    this.props.dispatch(addSystem(action));
+
+    // Show answers in Results component
+    this.props.toggleAnswers(true);
   }
   
   render() {
     return (
       <View style={styles.main}>
 
+        {/* Empty space */}
         <View style={styles.buffer}></View>
+
         {/* Bracket + Equations */}
         <View style={styles.system}>
           {/* Bracket */}
@@ -144,11 +159,13 @@ export default class Solver extends React.Component {
         
         {/* Clear and solve buttons */}
         <View style={styles.buttonRow} >
+          {/* Clear */}
           <TouchableHighlight onPress={this.onPressClear} underlayColor="white">
             <View style={styles.clearButton}>
               <Text style={styles.clearButtonText}>Clear</Text>
             </View>
           </TouchableHighlight>
+          {/* Solve */}
           <TouchableHighlight onPress={this.onPressSolve} underlayColor="white">
             <View style={styles.solveButton}>
               <Text style={styles.solveButtonText}>Solve</Text>
@@ -167,6 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
 
+  // Empty space
   buffer: {
     flex: 0.15,
   },  
@@ -235,14 +253,10 @@ const styles = StyleSheet.create({
   clearButton: {
     width: 80,
     alignItems: 'center',
-    // borderRadius: 7,
-    // borderWidth: 1,
-    // borderColor: 'blue',
   },
   solveButton: {
     width: 90,
     alignItems: 'center',
-    // backgroundColor: '#f1f1f1',
     borderRadius: 7,
     borderWidth: 1,
     borderColor: 'green',

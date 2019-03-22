@@ -1,7 +1,7 @@
 const log = (state = [], action) => {
 
   switch (action.type) {
-    case 'ADD_SYSTEM':
+    case 'ADD_SYSTEM': // Add a new item to the state.
       return [
         ...state,
         {
