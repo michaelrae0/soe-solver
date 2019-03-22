@@ -1,6 +1,6 @@
 # soe-solver
 
-React Native app for solving 2-equation systems. Uses redux for storing the state. This is a currently a work in progress. I plan to add the ability to delete entries from the history and possibly 3-equation functionality.
+React Native app for solving 2-equation systems. Uses redux for storing the state.
 
 <p>
   <img src="https://github.com/michaelrae0/soe-solver/blob/master/assets/previews/home.PNG" width="270">

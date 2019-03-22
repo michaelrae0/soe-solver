@@ -18,6 +18,10 @@ export default class Solver extends React.Component {
 
   solveEquations = () => {
     // Solve for x and y.
+    let atleastOneZero = (possibleZero, coeff, total, known) => {
+      if (possibleZero !== 0) return (total - coeff*known) / possibleZero;
+      else return 'Unknown'
+    }
 
     // Convert coefficients from strings to numbers
     let a1 = +this.state.a1;
@@ -31,12 +35,40 @@ export default class Solver extends React.Component {
     let x = 0;
     let y = 0;
 
-    y = (t2 - a2/a1*t1) / (b2 - a2/a1*b1);
-    x = (t1 - b1*y)/a1;
+    // Invalid inputs.
+    if ( this.state.t1 === '' || this.state.t2 === '' ) return "Invalid input"
+    else if ( a1 === 0 && a2 === 0 && ( t1/b1 !== t2/b2 || (t1 === 0 && t2 === 0) )) return "Invalid input"
+    else if ( b1 === 0 && b2 === 0 && ( t1/a1 !== t2/a2 || (t1 === 0 && t2 === 0) )) return "Invalid input"
+    else if ( (a1 === 0 && b1 === 0) || (a2 === 0 && b2 === 0) ) return "Enter two equations"
+    else if ( a1 === a2 && b1 === b2 && t1 !== t2 ) return "These equations never cross"
+
+
+    // Solutions for 1 to 2 zeros.
+    if (a1 === 0) {
+      y = t1/b1;
+      x = atleastOneZero(a2, b2, t2, y);
+    }
+    else if (a2 === 0) {
+      y = t2/b2;
+      x = atleastOneZero(a1, b1, t1, y);
+    }
+    else if (b1 === 0) {
+      x = t1/a1;
+      y = atleastOneZero(b2, a2, t2, x);
+    }
+    else if (b2 === 0) {
+      x = t2/a2;
+      y = atleastOneZero(b1, a1, t1, x);
+    }
+    // Solution for no zeros.
+    else {
+      y = (t2 - a2/a1*t1) / (b2 - a2/a1*b1);
+      x = (t1 - b1*y)/a1;
+    }
 
     // Round to 4 decimals to save screen space.
-    x = Math.round(x * 10000)/10000;
-    y = Math.round(y * 10000)/10000;
+    if (typeof x === 'number') x = Math.round(x * 10000)/10000;
+    if (typeof y === 'number') y = Math.round(y * 10000)/10000;
 
     return { x, y }
   }
@@ -52,16 +84,24 @@ export default class Solver extends React.Component {
       t2: '',
     });
 
-    // Stop showing answers in Results component
+    // Hide answers/error in Results component
     this.props.toggleAnswers(false);
+    this.props.toggleError(false);
   }
   onPressSolve = () => {    
     // Solve for x and y.
     let results = this.solveEquations();
 
+    // Show error in Results if user enter invalid input.
+    if (typeof results === 'string') {
+      this.props.toggleAnswers(false)
+      this.props.toggleError(results);
+      return;
+    }
+
     // Update redux state.
-    let action = { ...this.state, x: results.x, y: results.y };
-    this.props.dispatch(addSystem(action));
+    let system = { ...this.state, x: results.x, y: results.y };
+    this.props.dispatch(addSystem(system));
 
     // Show answers in Results component
     this.props.toggleAnswers(true);
@@ -78,7 +118,7 @@ export default class Solver extends React.Component {
         <View style={styles.system}>
           {/* Bracket */}
           <View style={styles.bracketContainer} >
-            <Image source={require('../../assets/bracketSlim.png')}  style={styles.bracket}/>
+            <Image source={require('../../assets/images/bracketSlim.png')}  style={styles.bracket}/>
           </View>
 
           {/* Equations */}
@@ -93,7 +133,7 @@ export default class Solver extends React.Component {
                   this.setState({a1})
                 }}
                 value={this.state.a1}
-                placeholder='1'
+                // placeholder='1'
               ></TextInput>
               <Text style={styles.variables} >x + </Text>
               <TextInput 
@@ -104,7 +144,7 @@ export default class Solver extends React.Component {
                   this.setState({b1})
                 }}
                 value={this.state.b1}
-                placeholder='1'
+                // placeholder='1'
               ></TextInput>
               <Text style={styles.variables} >y = </Text>
               <TextInput 
@@ -115,7 +155,7 @@ export default class Solver extends React.Component {
                   this.setState({t1})
                 }}
                 value={this.state.t1}
-                placeholder='1'
+                // placeholder='1'
               ></TextInput>
             </View>
 
@@ -129,7 +169,7 @@ export default class Solver extends React.Component {
                   this.setState({a2})
                 }}
                 value={this.state.a2}
-                placeholder='1'
+                // placeholder='1'
               ></TextInput>
               <Text style={styles.variables} >x + </Text>
               <TextInput 
@@ -140,7 +180,7 @@ export default class Solver extends React.Component {
                   this.setState({b2})
                 }}
                 value={this.state.b2}
-                placeholder='1'
+                // placeholder='1'
               ></TextInput>
               <Text style={styles.variables} >y = </Text>
               <TextInput 
@@ -151,7 +191,7 @@ export default class Solver extends React.Component {
                   this.setState({t2})
                 }}
                 value={this.state.t2}
-                placeholder='1'
+                // placeholder='1'
               ></TextInput>
             </View>
           </View>

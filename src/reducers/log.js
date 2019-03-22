@@ -1,23 +1,49 @@
+import _ from 'lodash';
+
 const log = (state = [], action) => {
 
+  // If action is equal to one of the objects in
+  // the state array, return true.
+  let alreadyAdded = (arr, obj) => {
+    for (let i = 0; i < arr.length; i++) {
+      if (_.isEqual(arr[i], obj)) {
+        return i; // index
+      }
+    }
+    return false;
+  }
+
   switch (action.type) {
-    case 'ADD_SYSTEM': // Add a new item to the state.
-      return [
+    // Add item.
+    case 'ADD_SYSTEM': 
+      let i = alreadyAdded(state, action);
+
+      // If already present, delete previous entry and
+      // add action to the end.
+      if (i) {
+        return [
+          ...state.slice(0, i),
+          ...state.slice(i + 1),
+          {
+            ...{ a1, b1, t1, a2, b2, t2, x, y } = action,
+          }
+        ]
+      }
+      // Otherwise, add it normally.
+      else return [
         ...state,
         {
-          id: action.id,
-
-          a1: action.a1,
-          b1: action.b1,
-          t1: action.t1,
-          a2: action.a2,
-          b2: action.b2,
-          t2: action.t2,
-          
-          x: action.x,
-          y: action.y,
+          ...{ a1, b1, t1, a2, b2, t2, x, y } = action,
         }
-      ]
+      ];
+
+    // Remove item
+    case 'REMOVE_SYSTEM':
+      return [
+        ...state.slice(0, action.index),
+        ...state.slice(action.index + 1)
+      ];
+
     default:
       return state;
   }

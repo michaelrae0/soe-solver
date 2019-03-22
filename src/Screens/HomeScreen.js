@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableHighlight, Image } from 'react-native'
 
 export default class SolverScreen extends React.Component {
   static navigationOptions = () => ({
-    title: 'Contact Us',
+    title: 'Home',
     header: null
   });
   
@@ -11,11 +11,13 @@ export default class SolverScreen extends React.Component {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.imageContainer} >
-          <Image source={require('../../assets/arrowsCross.png')}  style={styles.image}/>
+          <Image source={require('../../assets/images/arrowsCross.png')}  style={styles.image}/>
         </View>
+
         <Text style={styles.title}>
           System of Equations Solver
         </Text>
+
         <View style={styles.buttonContainer}>
           <TouchableHighlight onPress={() => this.props.navigation.navigate('Solver')} underlayColor="white">
             <View style={styles.button}>

@@ -9,6 +9,7 @@ export default class SolverScreen extends React.Component {
 
     this.state = {
       showAnswers: false, // Toggle showing answers in Results component
+      error: false, // Error message
     };
   }
   
@@ -22,6 +23,12 @@ export default class SolverScreen extends React.Component {
         />
   })
 
+  toggleError = string => {
+    // Link between Equations and SolverScreen for errors
+    if (string) this.setState({ error: string });
+    else this.setState({ error: false })
+  }
+
   toggleAnswers = bool => {
     // Link between Equations and SolverScreen for toggling answers
     if (bool) this.setState({ showAnswers: true });
@@ -31,8 +38,14 @@ export default class SolverScreen extends React.Component {
   render() {
     return (
       <ScrollView contentContainerStyle={{flex: 1}}>
-        <EquationsContainer toggleAnswers={this.toggleAnswers} />
-        <ResultsContainer showAnswers={this.state.showAnswers} />
+        <EquationsContainer
+          toggleAnswers={this.toggleAnswers}
+          toggleError={this.toggleError}
+        />
+        <ResultsContainer
+          showAnswers={this.state.showAnswers}
+          error={this.state.error}
+        />
       </ScrollView>
     );
   }

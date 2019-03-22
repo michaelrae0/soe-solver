@@ -4,8 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 export default class Results extends React.Component {
   render() {
     let log = 0
-    let x = '?';
-    let y = '?';
+    let x = '';
+    let y = '';
 
     // Verify there is a state to work with.
     if (this.props.log[0]) {
@@ -17,13 +17,23 @@ export default class Results extends React.Component {
     // Check whether to show or hide answers.
     if (this.props.showAnswers) {
       return (
-        <View style={styles.results}> 
-          <View style={styles.container}>
-            <Text style={styles.text}>x = {x}</Text>
-            <Text style={styles.text}>y = {y}</Text>
+        <View style={styles.results} > 
+          <View style={styles.container} >
+            <Text style={styles.text} >x = {x}</Text>
+            <Text style={styles.text} >y = {y}</Text>
           </View>
         </View>
       );
+    }
+    // Display if invalid input.
+    else if (this.props.error) {
+      return (
+        <View style={styles.results} >
+          <View style={styles.container} >
+            <Text style={styles.text} >{this.props.error}</Text>
+          </View>
+        </View>
+      )
     }
     else return null;
   }
@@ -38,9 +48,12 @@ const styles = StyleSheet.create({
 
   container: {
     alignItems: 'center',
+    maxWidth: 300,
+
   },
   text: {
     fontSize: 30,
     padding: 10,
+    textAlign: 'center',
   },
 });
