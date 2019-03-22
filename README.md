@@ -3,9 +3,9 @@
 React Native app for solving 2-equation systems. Uses redux for storing the state.
 
 <p>
-  <img src="https://github.com/michaelrae0/soe-solver/blob/master/assets/previews/home.PNG" width="270">
-  <img src="https://github.com/michaelrae0/soe-solver/blob/master/assets/previews/solver.PNG" width="270">
-  <img src="https://github.com/michaelrae0/soe-solver/blob/master/assets/previews/history.PNG" width="270">
+  <img src="https://github.com/michaelrae0/soe-solver/blob/master/assets/screens/home.PNG" width="270">
+  <img src="https://github.com/michaelrae0/soe-solver/blob/master/assets/screens/solver.PNG" width="270">
+  <img src="https://github.com/michaelrae0/soe-solver/blob/master/assets/screens/history.PNG" width="270">
 </p>
 
 # Installation
