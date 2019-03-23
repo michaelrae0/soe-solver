@@ -20,7 +20,7 @@ const log = (state = [], action) => {
 
       // If already present, delete previous entry and
       // add action to the end.
-      if (i) {
+      if (i !== false) {
         return [
           ...state.slice(0, i),
           ...state.slice(i + 1),

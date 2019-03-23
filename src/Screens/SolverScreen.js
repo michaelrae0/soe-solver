@@ -15,7 +15,7 @@ export default class SolverScreen extends React.Component {
   
   static navigationOptions = ({ navigation }) => ({
     headerTitle: 'Solver',
-    headerLeft: null,
+    // headerLeft: null,
     headerRight: // To History component
         <Button
           title="History"
